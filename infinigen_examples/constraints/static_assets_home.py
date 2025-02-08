@@ -627,9 +627,9 @@ def home_furniture_constraints():
 
     # region WALL/FLOOR COVERINGS
     walldec = obj[Semantics.WallDecoration].related_to(rooms, cu.flush_wall)
-    wall_art = walldec[wall_decorations.WallArtFactory]
-    mirror = walldec[wall_decorations.MirrorFactory]
-    rugs = obj[elements.RugFactory].related_to(rooms, cu.on_floor)
+    wall_art = walldec[static_assets.StaticWallFactory]
+    mirror = walldec[static_assets.StaticMirrorFactory]
+    rugs = obj[static_assets.StaticBlanketFactory].related_to(rooms, cu.on_floor)
 
     constraints["rugs"] = rooms.all(
         lambda r: (cl.min_distance_internal(rugs.related_to(r)) >= 1)
@@ -678,9 +678,9 @@ def home_furniture_constraints():
     # endregion
 
     # region PLANTS
-    small_plants = obj[tableware.PlantContainerFactory].related_to(storage, cu.ontop)
+    small_plants = obj[static_assets.StaticPlantFactory].related_to(storage, cu.ontop)
     big_plants = (
-        obj[tableware.LargePlantContainerFactory]
+        obj[static_assets.StaticPlantFactory]
         .related_to(rooms, cu.on_floor)
         .related_to(rooms, cu.against_wall)
     )
@@ -705,7 +705,7 @@ def home_furniture_constraints():
     # endregion
 
     # region DESKS
-    desks = wallfurn[shelves.SimpleDeskFactory]
+    desks = wallfurn[static_assets.StaticDeskFactory]
     deskchair = furniture[seating.OfficeChairFactory].related_to(
         desks, cu.front_to_front
     )
@@ -746,7 +746,7 @@ def home_furniture_constraints():
 
     lights = obj[Semantics.Lighting]
     floor_lamps = (
-        lights[lamp.FloorLampFactory]
+        lights[static_assets.StaticLampFactory]
         .related_to(rooms, cu.on_floor)
         .related_to(rooms, cu.against_wall)
     )
@@ -760,7 +760,7 @@ def home_furniture_constraints():
     # endregion
 
     # region CEILING LIGHTS
-    ceillights = lights[lamp.CeilingLightFactory]
+    ceillights = lights[static_assets.StaticCeilinglightFactory]
 
     constraints["ceiling_lights"] = rooms.all(
         lambda r: (ceillights.related_to(r, cu.hanging).count().in_range(1, 4))
@@ -779,7 +779,7 @@ def home_furniture_constraints():
     # endregion
 
     # region LAMPS
-    lamps = lights[lamp.DeskLampFactory].related_to(furniture, cu.ontop)
+    lamps = lights[static_assets.StaticLampFactory].related_to(furniture, cu.ontop)
     constraints["lamps"] = rooms.all(
         lambda r: (
             # allow 0-2 lamps per room, placed on any sensible object
@@ -798,7 +798,7 @@ def home_furniture_constraints():
     # endregion
 
     # region SIDETABLES
-    sidetables = furniture[tables.SideTableFactory].related_to(
+    sidetables = furniture[static_assets.StaticSideboardcabinetFactory].related_to(
         wallfurn, cu.leftright_leftright
     )
 
@@ -989,7 +989,7 @@ def home_furniture_constraints():
                 kitchen_appliances_big[appliances.OvenFactory].related_to(r).count()
                 == 1
             )
-            * (wallfurn[shelves.KitchenCabinetFactory].related_to(r).count() >= 0)
+            * (wallfurn[static_assets.StaticCabinetFactory].related_to(r).count() >= 0)
             * (microwaves.related_to(wallcounter.related_to(r)).count().in_range(0, 1))
         )
     )
@@ -1085,8 +1085,8 @@ def home_furniture_constraints():
 
     livingrooms = rooms[Semantics.LivingRoom].excludes(cu.room_types)
     sofas = furniture[static_assets.StaticSofachairFactory]
-    tvstands = wallfurn[shelves.TVStandFactory]
-    coffeetables = furniture[tables.CoffeeTableFactory]
+    tvstands = wallfurn[static_assets.StaticTvstandFactory]
+    coffeetables = furniture[static_assets.StaticTeatableFactory]
 
     sofa_back_near_wall = cl.StableAgainst(
         cu.back, cu.walltags, margin=uniform(0.1, 0.3)
@@ -1166,7 +1166,7 @@ def home_furniture_constraints():
     )
 
     tvs = (
-        obj[appliances.TVFactory]
+        obj[static_assets.StaticTvFactory]
         .related_to(tvstands, cu.ontop)
         .related_to(tvstands, cu.back_coplanar_back)
     )

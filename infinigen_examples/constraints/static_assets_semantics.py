@@ -40,14 +40,14 @@ def home_asset_usage():
     # region small objects
 
     used_as[Semantics.Dishware] = {
-        tableware.PlateFactory,
-        tableware.BowlFactory,
+        static_assets.StaticPlateFactory,
+        static_assets.StaticBowlFactory,
         tableware.WineglassFactory,
-        tableware.PanFactory,
-        tableware.PotFactory,
-        tableware.CupFactory,
+        static_assets.StaticPanFactory,
+        static_assets.StaticPotFactory,
+        static_assets.StaticCupFactory,
     }
-    used_as[Semantics.Cookware] = {tableware.PotFactory, tableware.PanFactory}
+    used_as[Semantics.Cookware] = {static_assets.StaticPotFactory, static_assets.StaticPanFactory}
     used_as[Semantics.Utensils] = {
         tableware.SpoonFactory,
         tableware.KnifeFactory,
@@ -66,13 +66,11 @@ def home_asset_usage():
     used_as[Semantics.TableDisplayItem] = {
         tableware.FruitContainerFactory,
         table_decorations.VaseFactory,
-        tableware.BowlFactory,
-        tableware.PotFactory,
+        static_assets.StaticBowlFactory,
+        static_assets.StaticPotFactory,
     }
 
     used_as[Semantics.OfficeShelfItem] = {
-        table_decorations.BookStackFactory,
-        table_decorations.BookColumnFactory,
         elements.NatureShelfTrinketsFactory,
     }
 
@@ -80,14 +78,13 @@ def home_asset_usage():
         used_as[Semantics.Dishware],
         used_as[Semantics.Cookware],
         {
-            table_decorations.BookColumnFactory,
             tableware.JarFactory,
         },
     )
 
     used_as[Semantics.BathroomItem] = {
         tableware.BottleFactory,
-        tableware.BowlFactory,
+        static_assets.StaticBowlFactory,
         clothes.TowelFactory,
     }
 
@@ -118,17 +115,14 @@ def home_asset_usage():
     }
 
     used_as[Semantics.Storage] = {
-        shelves.SimpleBookcaseFactory,
-        shelves.CellShelfFactory,
-        shelves.LargeShelfFactory,
-        # static_assets.StaticShelfFactory,
-        shelves.KitchenCabinetFactory,
-        shelves.SingleCabinetFactory,
+        static_assets.StaticBookshelfFactory,
+        static_assets.StaticShelfFactory,
+        static_assets.StaticCabinetFactory,
+        static_assets.StaticShoecabinetFactory,
     }
 
     used_as[Semantics.SideTable] = {
-        shelves.SidetableDeskFactory,
-        tables.SideTableFactory,
+        static_assets.StaticSideboardcabinetFactory,
     }
 
     used_as[Semantics.Table] = set.union(
@@ -136,9 +130,8 @@ def home_asset_usage():
         {
             tables.TableDiningFactory,
             tables.TableCocktailFactory,
-            shelves.SimpleDeskFactory,
-            tables.CoffeeTableFactory,
-            # static_assets.StaticTableFactory,
+            static_assets.StaticDeskFactory,
+            static_assets.StaticTeatableFactory,
         },
     )
 
@@ -171,7 +164,7 @@ def home_asset_usage():
     }
 
     used_as[Semantics.Bed] = {
-        seating.BedFactory,
+        static_assets.StaticBedFactory,
     }
 
     used_as[Semantics.Furniture] = set().union(
@@ -186,15 +179,15 @@ def home_asset_usage():
             bathroom.ToiletFactory,
             bathroom.BathtubFactory,
             static_assets.StaticSofachairFactory,
-            shelves.TVStandFactory,
+            static_assets.StaticTvstandFactory,
         },
     )
 
     # endregion furniture
 
     used_as[Semantics.WallDecoration] = {
-        wall_decorations.WallArtFactory,
-        wall_decorations.MirrorFactory,
+        static_assets.StaticWallFactory,
+        static_assets.StaticMirrorFactory,
         wall_decorations.BalloonFactory,
     }
 
@@ -208,15 +201,13 @@ def home_asset_usage():
     used_as[Semantics.Window] = {windows.WindowFactory}
 
     used_as[Semantics.CeilingLight] = {
-        lamp.CeilingLightFactory,
+        static_assets.StaticCeilinglightFactory,
     }
 
     used_as[Semantics.Lighting] = set().union(
         used_as[Semantics.CeilingLight],
         {
-            lamp.LampFactory,
-            lamp.FloorLampFactory,
-            lamp.DeskLampFactory,
+            static_assets.StaticLampFactory,
         },
     )
 
@@ -229,12 +220,11 @@ def home_asset_usage():
         used_as[Semantics.HandheldItem],
         used_as[Semantics.Lighting],
         {
-            tableware.PlantContainerFactory,
-            tableware.LargePlantContainerFactory,
+            static_assets.StaticPlantFactory,
             decor.AquariumTankFactory,
-            appliances.TVFactory,
+            static_assets.StaticTvFactory,
             appliances.MonitorFactory,
-            elements.RugFactory,
+            static_assets.StaticBlanketFactory,
             bathroom.HardwareFactory,
         },
     )
@@ -243,47 +233,15 @@ def home_asset_usage():
     # TODO be move outside of the semantics heirarchy and into separate AssetFactory.metadata classvar
 
     used_as[Semantics.RealPlaceholder] = {
-        appliances.MonitorFactory,
-        appliances.TVFactory,
-        bathroom.BathroomSinkFactory,
-        bathroom.StandingSinkFactory,
-        bathroom.ToiletFactory,
-        decor.AquariumTankFactory,
-        elements.RackFactory,
-        elements.RugFactory,
-        seating.BedFrameFactory,
-        seating.BedFactory,
-        seating.ChairFactory,
-        shelves.KitchenSpaceFactory,
-        tables.TableCocktailFactory,
-        table_decorations.BookColumnFactory,
-        table_decorations.BookFactory,
-        table_decorations.BookStackFactory,
-        table_decorations.SinkFactory,
-        tableware.BowlFactory,
-        tableware.FoodBoxFactory,
-        tableware.FruitContainerFactory,
-        tableware.LargePlantContainerFactory,
-        tableware.PlantContainerFactory,
-        tableware.PotFactory,
-        wall_decorations.BalloonFactory,
-        wall_decorations.MirrorFactory,
-        wall_decorations.WallArtFactory,
-        shelves.SingleCabinetFactory,
-        shelves.KitchenCabinetFactory,
-        shelves.CellShelfFactory,
-        elements.NatureShelfTrinketsFactory,
     }
 
     used_as[Semantics.AssetAsPlaceholder] = set()
 
     used_as[Semantics.AssetPlaceholderForChildren] = {
-        shelves.SimpleBookcaseFactory,
-        shelves.CellShelfFactory,
-        shelves.SingleCabinetFactory,
-        shelves.KitchenCabinetFactory,
-        shelves.LargeShelfFactory,
+        static_assets.StaticBookshelfFactory,
         static_assets.StaticShelfFactory,
+        static_assets.StaticCabinetFactory,
+        static_assets.StaticShoecabinetFactory,
         table_decorations.SinkFactory,
         tables.TableCocktailFactory,
     }
@@ -297,33 +255,32 @@ def home_asset_usage():
             used_as[Semantics.Dishware],
             used_as[Semantics.Utensils],
             {
-                lamp.CeilingLightFactory,
-                lamp.CeilingClassicLampFactory,
+                static_assets.StaticCeilinglightFactory,
                 seating.ChairFactory,
                 seating.BarChairFactory,
                 seating.OfficeChairFactory,
             },
         )
-        .difference({tableware.CupFactory})
+        .difference({static_assets.StaticCupFactory})
     )
 
     used_as[Semantics.NoRotation] = set().union(
         used_as[Semantics.WallDecoration],
         {
             bathroom.HardwareFactory,
-            lamp.CeilingLightFactory,  # rotationally symetric
+            static_assets.StaticCeilinglightFactory,  # rotationally symetric
         },
     )
 
     used_as[Semantics.NoCollision] = {
-        elements.RugFactory,
+        static_assets.StaticBlanketFactory,
     }
 
     used_as[Semantics.NoChildren] = {
-        elements.RugFactory,
-        wall_decorations.MirrorFactory,
-        wall_decorations.WallArtFactory,
-        lamp.CeilingLightFactory,
+        static_assets.StaticBlanketFactory,
+        static_assets.StaticMirrorFactory,
+        static_assets.StaticWallFactory,
+        static_assets.StaticCeilinglightFactory,
     }
 
     # endregion

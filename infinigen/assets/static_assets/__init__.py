@@ -1,66 +1,67 @@
 from .base import StaticAssetFactory
 from .static_category import (
-    StaticBookFactory, #
-    StaticLaptopFactory,
-    StaticSinkFactory, #
-    StaticShoeFactory,
+    StaticBedFactory,
+    StaticShelfFactory,
+    StaticLampFactory,
+    StaticCabinetFactory,
+    StaticShoecabinetFactory,
+    StaticSideboardcabinetFactory,
+    StaticWallFactory,
+    StaticDeskFactory,
+    StaticMirrorFactory,
+    StaticCeilinglightFactory,
+    StaticCupFactory,
+    StaticPanFactory,
+    StaticPotFactory,
+    StaticBowlFactory,
     StaticPlateFactory,
+    StaticPlantFactory,
+    StaticTeatableFactory,
+    StaticTvFactory,
+    StaticTvstandFactory,
+    StaticBookshelfFactory,
+    StaticBlanketFactory,
+    StaticSofachairFactory, #
+    StaticBookFactory,
+    StaticLaptopFactory,
+    StaticSinkFactory,
+    StaticShoeFactory,
     StaticBicycleFactory,
     StaticFanFactory,
     StaticWashingmachineFactory,
-    StaticShoecabinetFactory, #
     StaticOtherFactory,
-    StaticDeskFactory, #
     StaticTrayFactory,
     StaticToyFactory,
-    StaticDoorFactory, # 
-    StaticBedFactory, #
+    StaticDoorFactory,
     StaticElectriccookerFactory,
     StaticClockFactory,
-    StaticPlantFactory, #
-    StaticTvstandFactory, #
     StaticRefrigeratorFactory,
     StaticFaucetFactory,
     StaticStoolFactory,
-    StaticBathtubFactory, #
-    StaticCabinetFactory, #
+    StaticBathtubFactory,
     StaticCouchFactory,
     StaticLightFactory,
-    StaticClothesFactory, #
-    StaticBowlFactory, #
+    StaticClothesFactory,
     StaticPictureFactory,
-    StaticBookshelfFactory, #
-    StaticMicrowaveFactory, #
-    StaticToiletFactory, #
-    StaticBlanketFactory, #
-    StaticCupFactory, #
+    StaticMicrowaveFactory,
+    StaticToiletFactory,
     StaticDecorationFactory,
-    StaticMirrorFactory, #
-    StaticCeilinglightFactory, #
-    StaticLampFactory, #
     StaticCounterFactory,
-    StaticPotFactory, #
     StaticTelephoneFactory,
     StaticNightstandFactory,
-    StaticOvenFactory, #
+    StaticOvenFactory,
     StaticTrashcanFactory,
     StaticCoffeemakerFactory,
     StaticCurtainFactory,
-    StaticWallFactory, #
     StaticCartFactory,
-    StaticTableFactory, #
+    StaticTableFactory,
     StaticKeyboardFactory,
-    StaticSofachairFactory, #
     StaticBasketFactory,
-    StaticTeatableFactory, #
-    StaticSideboardcabinetFactory, #
-    StaticPanFactory, #
-    StaticMonitorFactory, # 
+    StaticMonitorFactory, 
     StaticBoxFactory,
     StaticBackpackFactory,
-    StaticShelfFactory, #
-    StaticChairFactory, #
-    StaticBottleFactory, #
+    StaticChairFactory,
+    StaticBottleFactory,
     StaticSpeakerFactory,
     StaticPenFactory,
     StaticPersonFactory,
@@ -68,10 +69,9 @@ from .static_category import (
     StaticMouseFactory,
     StaticHearthFactory,
     StaticChestofdrawersFactory,
-    StaticTowelFactory, #
+    StaticTowelFactory,
     StaticPianoFactory,
-    StaticDishwasherFactory, #
-    StaticTvFactory, #
+    StaticDishwasherFactory,
     StaticMusicalinstrumentFactory,
     static_category_factory,
 )
