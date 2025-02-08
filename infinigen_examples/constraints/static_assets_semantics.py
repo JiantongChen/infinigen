@@ -149,8 +149,7 @@ def home_asset_usage():
     }
 
     used_as[Semantics.LoungeSeating] = {
-        seating.SofaFactory,
-        static_assets.StaticSofaFactory,
+        static_assets.StaticSofachairFactory,
         seating.ArmChairFactory,
     }
 
@@ -186,8 +185,7 @@ def home_asset_usage():
             bathroom.StandingSinkFactory,
             bathroom.ToiletFactory,
             bathroom.BathtubFactory,
-            seating.SofaFactory,
-            static_assets.StaticSofaFactory,
+            static_assets.StaticSofachairFactory,
             shelves.TVStandFactory,
         },
     )
@@ -291,8 +289,6 @@ def home_asset_usage():
     }
 
     used_as[Semantics.PlaceholderBBox] = {
-        seating.SofaFactory,
-        appliances.OvenFactory,
     }
 
     used_as[Semantics.SingleGenerator] = (

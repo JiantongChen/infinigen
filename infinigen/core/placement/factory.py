@@ -30,6 +30,7 @@ class AssetFactory:
             self.factory_seed = np.random.randint(1e9)
 
         self.coarse = coarse
+        self.asset_file = None
 
         logger.debug(f"{self}.__init__()")
 
@@ -144,6 +145,9 @@ class AssetFactory:
             obj = self.create_asset(i=i, placeholder=placeholder, **params)
 
         obj.name = f"{repr(self)}.spawn_asset({i})"
+        if self.asset_file:
+            file_name = self.asset_file.split("/")[-1].split(".")[0]
+            obj.name = f"{file_name}.spawn_asset({i})"
 
         if user_provided_placeholder:
             if obj is not placeholder:

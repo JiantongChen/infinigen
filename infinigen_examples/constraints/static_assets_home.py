@@ -1084,7 +1084,7 @@ def home_furniture_constraints():
     # region LIVINGROOMS
 
     livingrooms = rooms[Semantics.LivingRoom].excludes(cu.room_types)
-    sofas = furniture[static_assets.StaticSofaFactory]
+    sofas = furniture[static_assets.StaticSofachairFactory]
     tvstands = wallfurn[shelves.TVStandFactory]
     coffeetables = furniture[tables.CoffeeTableFactory]
 
