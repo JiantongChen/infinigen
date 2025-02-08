@@ -1,2 +1,3 @@
 BlueprintSolidifier.enable_open=False
 restrict_solving.solve_max_rooms=1
+restrict_solving.restrict_parent_rooms=["LivingRoom"]

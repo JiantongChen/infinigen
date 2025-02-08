@@ -60,7 +60,7 @@ class StaticAssetFactory(AssetFactory):
             elif extension == "blend":
                 self.import_single_object_from_blend(file_path)
             else:
-                func(filepath=file_path)
+                func(filepath=file_path, import_materials=False)
 
             new_objects = set(bpy.context.scene.objects) - initial_objects
             for obj in new_objects:

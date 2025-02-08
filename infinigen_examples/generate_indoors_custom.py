@@ -48,11 +48,8 @@ from infinigen.core.util.test_utils import (
 from infinigen.terrain import Terrain
 from infinigen_examples.constraints import static_assets_home as home_constraints
 
-from . import (
-    generate_nature,  # noqa F401 # needed for nature gin configs to load  # noqa F401 # needed for nature gin configs to load
-)
-from .constraints import util as cu
-from .util.generate_indoors_util import (
+from constraints import util as cu
+from util.generate_indoors_util import (
     apply_greedy_restriction,
     create_outdoor_backdrop,
     hide_other_rooms,
@@ -519,10 +516,10 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output_folder", type=Path)
+    parser.add_argument("--output_folder", type=Path, default="outputs/indoors/coarse")
     parser.add_argument("--input_folder", type=Path, default=None)
     parser.add_argument(
-        "-s", "--seed", default=None, help="The seed used to generate the scene"
+        "-s", "--seed", default="0", help="The seed used to generate the scene"
     )
     parser.add_argument(
         "-t",
@@ -543,7 +540,7 @@ if __name__ == "__main__":
         "-g",
         "--configs",
         nargs="+",
-        default=["base"],
+        default=["fast_solve.gin", "singleroom.gin"],
         help="Set of config files for gin (separated by spaces) "
         "e.g. --gin_config file1 file2 (exclude .gin from path)",
     )
