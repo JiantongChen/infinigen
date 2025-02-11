@@ -60,12 +60,12 @@ def home_asset_usage():
         tableware.FoodBagFactory,
         tableware.FoodBoxFactory,
         tableware.JarFactory,
-        tableware.BottleFactory,
+        static_assets.StaticBottleFactory,
     }
 
     used_as[Semantics.TableDisplayItem] = {
         tableware.FruitContainerFactory,
-        table_decorations.VaseFactory,
+        static_assets.StaticBottleFactory,
         static_assets.StaticBowlFactory,
         static_assets.StaticPotFactory,
     }
@@ -83,16 +83,14 @@ def home_asset_usage():
     )
 
     used_as[Semantics.BathroomItem] = {
-        tableware.BottleFactory,
+        static_assets.StaticBottleFactory,
         static_assets.StaticBowlFactory,
-        clothes.TowelFactory,
     }
 
     used_as[Semantics.ClothDrapeItem] = {
         # objects that can be strewn about / draped over furniture
         # clothes.BlanketFactory,
-        clothes.PantsFactory,
-        clothes.ShirtFactory,
+        static_assets.StaticClothesFactory,
     }
 
     used_as[Semantics.HandheldItem] = set.union(
@@ -128,22 +126,18 @@ def home_asset_usage():
     used_as[Semantics.Table] = set.union(
         used_as[Semantics.SideTable],
         {
-            tables.TableDiningFactory,
-            tables.TableCocktailFactory,
+            static_assets.StaticTableFactory,
             static_assets.StaticDeskFactory,
             static_assets.StaticTeatableFactory,
         },
     )
 
     used_as[Semantics.Chair] = {
-        seating.BarChairFactory,
-        seating.ChairFactory,
-        seating.OfficeChairFactory,
+        static_assets.StaticChairFactory
     }
 
     used_as[Semantics.LoungeSeating] = {
         static_assets.StaticSofachairFactory,
-        seating.ArmChairFactory,
     }
 
     used_as[Semantics.Seating] = set.union(
@@ -152,10 +146,10 @@ def home_asset_usage():
     )
 
     used_as[Semantics.KitchenAppliance] = {
-        appliances.DishwasherFactory,
-        appliances.OvenFactory,
+        static_assets.StaticWashingmachineFactory,
+        static_assets.StaticOvenFactory,
         appliances.BeverageFridgeFactory,
-        appliances.MicrowaveFactory,
+        static_assets.StaticMicrowaveFactory,
     }
 
     used_as[Semantics.KitchenCounter] = {
@@ -176,8 +170,8 @@ def home_asset_usage():
         used_as[Semantics.Bed],
         {
             bathroom.StandingSinkFactory,
-            bathroom.ToiletFactory,
-            bathroom.BathtubFactory,
+            static_assets.StaticToiletFactory,
+            static_assets.StaticBathtubFactory,
             static_assets.StaticSofachairFactory,
             static_assets.StaticTvstandFactory,
         },
@@ -186,7 +180,7 @@ def home_asset_usage():
     # endregion furniture
 
     used_as[Semantics.WallDecoration] = {
-        static_assets.StaticWallFactory,
+        wall_decorations.WallArtFactory,
         static_assets.StaticMirrorFactory,
         wall_decorations.BalloonFactory,
     }
@@ -223,7 +217,7 @@ def home_asset_usage():
             static_assets.StaticPlantFactory,
             decor.AquariumTankFactory,
             static_assets.StaticTvFactory,
-            appliances.MonitorFactory,
+            static_assets.StaticMonitorFactory,
             static_assets.StaticBlanketFactory,
             bathroom.HardwareFactory,
         },
@@ -243,7 +237,7 @@ def home_asset_usage():
         static_assets.StaticCabinetFactory,
         static_assets.StaticShoecabinetFactory,
         table_decorations.SinkFactory,
-        tables.TableCocktailFactory,
+        static_assets.StaticTableFactory,
     }
 
     used_as[Semantics.PlaceholderBBox] = {
@@ -256,9 +250,7 @@ def home_asset_usage():
             used_as[Semantics.Utensils],
             {
                 static_assets.StaticCeilinglightFactory,
-                seating.ChairFactory,
-                seating.BarChairFactory,
-                seating.OfficeChairFactory,
+                static_assets.StaticChairFactory,
             },
         )
         .difference({static_assets.StaticCupFactory})
@@ -279,7 +271,7 @@ def home_asset_usage():
     used_as[Semantics.NoChildren] = {
         static_assets.StaticBlanketFactory,
         static_assets.StaticMirrorFactory,
-        static_assets.StaticWallFactory,
+        wall_decorations.WallArtFactory,
         static_assets.StaticCeilinglightFactory,
     }
 

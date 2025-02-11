@@ -627,7 +627,7 @@ def home_furniture_constraints():
 
     # region WALL/FLOOR COVERINGS
     walldec = obj[Semantics.WallDecoration].related_to(rooms, cu.flush_wall)
-    wall_art = walldec[static_assets.StaticWallFactory]
+    wall_art = walldec[wall_decorations.WallArtFactory]
     mirror = walldec[static_assets.StaticMirrorFactory]
     rugs = obj[static_assets.StaticBlanketFactory].related_to(rooms, cu.on_floor)
 
@@ -706,11 +706,11 @@ def home_furniture_constraints():
 
     # region DESKS
     desks = wallfurn[static_assets.StaticDeskFactory]
-    deskchair = furniture[seating.OfficeChairFactory].related_to(
+    deskchair = furniture[static_assets.StaticChairFactory].related_to(
         desks, cu.front_to_front
     )
     desk_monitors = (
-        obj[appliances.MonitorFactory]
+        obj[static_assets.StaticMonitorFactory]
         .related_to(desks, cu.ontop)
         .related_to(desks, cu.back_coplanar_back)
     )
@@ -886,7 +886,7 @@ def home_furniture_constraints():
         rooms, cu.against_wall
     )
     island = countertops[shelves.KitchenIslandFactory]
-    barchairs = furniture[seating.BarChairFactory]
+    barchairs = furniture[static_assets.StaticChairFactory]
 
     constraints["kitchen_counters"] = kitchens.all(
         lambda r: (
@@ -970,14 +970,14 @@ def home_furniture_constraints():
         kitchens, cu.on_floor
     ).related_to(kitchens, cu.against_wall)
     microwaves = (
-        kitchen_appliances[appliances.MicrowaveFactory]
+        kitchen_appliances[static_assets.StaticMicrowaveFactory]
         .related_to(wallcounter, cu.on)
         .related_to(wallcounter, cu.back_coplanar_back)
     )
 
     constraints["kitchen_appliance"] = kitchens.all(
         lambda r: (
-            kitchen_appliances_big[appliances.DishwasherFactory]
+            kitchen_appliances_big[static_assets.StaticWashingmachineFactory]
             .related_to(r)
             .count()
             .in_range(0, 1)
@@ -986,7 +986,7 @@ def home_furniture_constraints():
             .count()
             .in_range(0, 1)
             * (
-                kitchen_appliances_big[appliances.OvenFactory].related_to(r).count()
+                kitchen_appliances_big[static_assets.StaticOvenFactory].related_to(r).count()
                 == 1
             )
             * (wallfurn[static_assets.StaticCabinetFactory].related_to(r).count() >= 0)
@@ -1049,11 +1049,11 @@ def home_furniture_constraints():
 
     # disabled for now bc tertiary
     # constraints['kitchen_appliance_objects'] = kitchens.all(lambda r: (
-    #    wallfurn[appliances.DishwasherFactory].related_to(r).all(lambda r: (
+    #    wallfurn[static_assets.StaticWashingmachineFactory].related_to(r).all(lambda r: (
     #        (obj[Semantics.Cookware].related_to(r, cu.on).count() >= 0) *
     #        (obj[Semantics.Dishware].related_to(r, cu.on).count() >= 0
     #    )) *
-    #    wallfurn[appliances.OvenFactory].related_to(r).all(lambda r: (
+    #    wallfurn[static_assets.StaticOvenFactory].related_to(r).all(lambda r: (
     #        (obj[Semantics.Cookware].related_to(r, cu.on).count() >= 0)
     #    ))
     # )))
@@ -1269,8 +1269,8 @@ def home_furniture_constraints():
 
     # region DININGROOMS
 
-    diningtables = furniture[Semantics.Table][tables.TableDiningFactory]
-    diningchairs = furniture[Semantics.Chair][seating.ChairFactory]
+    diningtables = furniture[Semantics.Table][static_assets.StaticTableFactory]
+    diningchairs = furniture[Semantics.Chair][static_assets.StaticChairFactory]
     constraints["dining_chairs"] = rooms.all(
         lambda r: (
             diningtables.related_to(r).all(
@@ -1358,8 +1358,8 @@ def home_furniture_constraints():
     # region BATHROOMS
     bathrooms = rooms[Semantics.Bathroom].excludes(cu.room_types)
 
-    toilet = wallfurn[bathroom.ToiletFactory]
-    bathtub = wallfurn[bathroom.BathtubFactory]
+    toilet = wallfurn[static_assets.StaticToiletFactory]
+    bathtub = wallfurn[static_assets.StaticBathtubFactory]
     sink = wallfurn[bathroom.StandingSinkFactory]
 
     hardware = obj[bathroom.HardwareFactory].related_to(bathrooms, cu.against_wall)
@@ -1444,7 +1444,7 @@ def home_furniture_constraints():
 
     if params["has_cocktail_tables"]:
         cocktail_table = (
-            furniture[tables.TableCocktailFactory]
+            furniture[static_assets.StaticTableFactory]
             .related_to(rooms, cu.on_floor)
             .related_to(rooms, cu.against_wall)
         )
