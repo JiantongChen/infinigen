@@ -1,5 +1,6 @@
 from .base import StaticAssetFactory
 from .static_category import (
+    StaticBookFactory,
     StaticMicrowaveFactory,
     StaticClothesFactory,
     StaticBottleFactory,
@@ -32,7 +33,6 @@ from .static_category import (
     StaticBlanketFactory,
     StaticSofachairFactory, #
     StaticWallFactory,
-    StaticBookFactory,
     StaticLaptopFactory,
     StaticSinkFactory,
     StaticShoeFactory,

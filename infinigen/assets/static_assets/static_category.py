@@ -115,7 +115,7 @@ StaticLightFactory = static_category_factory("infinigen/assets/static_assets/sou
 StaticClothesFactory = static_category_factory("infinigen/assets/static_assets/source/Clothes")
 StaticBowlFactory = static_category_factory("infinigen/assets/static_assets/source/Bowl")
 StaticPictureFactory = static_category_factory("infinigen/assets/static_assets/source/Picture")
-StaticBookshelfFactory = static_category_factory("infinigen/assets/static_assets/source/Bookshelf")
+StaticBookshelfFactory = static_category_factory("infinigen/assets/static_assets/source/Bookshelf", tag_support=True)
 StaticMicrowaveFactory = static_category_factory("infinigen/assets/static_assets/source/Microwave")
 StaticToiletFactory = static_category_factory("infinigen/assets/static_assets/source/Toilet")
 StaticBlanketFactory = static_category_factory("infinigen/assets/static_assets/source/Blanket")

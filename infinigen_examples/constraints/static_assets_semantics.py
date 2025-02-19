@@ -220,6 +220,7 @@ def home_asset_usage():
             static_assets.StaticMonitorFactory,
             static_assets.StaticBlanketFactory,
             bathroom.HardwareFactory,
+            static_assets.StaticBookFactory,
         },
     )
 

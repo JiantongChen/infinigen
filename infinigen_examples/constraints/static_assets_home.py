@@ -516,6 +516,7 @@ def home_furniture_constraints():
 
     storage = furniture[Semantics.Storage]
     storage_freestanding = storage.related_to(rooms, cu.against_wall)
+    bookshelf = storage_freestanding[static_assets.StaticBookshelfFactory]
 
     params = sample_home_constraint_params()
 
@@ -610,6 +611,14 @@ def home_furniture_constraints():
     )
 
     # endregion furntiure
+
+    # region storage
+
+    constraints["storage"] = bookshelf.all(
+        lambda b: (obj[static_assets.StaticBookFactory].related_to(b, cu.on).count().in_range(5, 20))
+    )
+
+    # endregion storage
 
     score_terms["portal_accessibility"] = (
         # make sure the fronts of objects are accessible where applicable
@@ -784,9 +793,7 @@ def home_furniture_constraints():
         lambda r: (
             # allow 0-2 lamps per room, placed on any sensible object
             lamps.related_to(storage.related_to(r)).count().in_range(0, 2)
-            * lamps.related_to(desks.related_to(r, cu.on), cu.ontop)
-            .count()
-            .in_range(0, 1)
+            * lamps.related_to(desks.related_to(r, cu.on), cu.ontop).count().in_range(0, 1)
             * (  # pull-string lamps look extremely unnatural when too far off the ground
                 lamps.related_to(storage.related_to(r)).all(
                     lambda l: l.distance(r, cu.floortags).in_range(0.5, 1.5)
@@ -1117,6 +1124,7 @@ def home_furniture_constraints():
                     * cl.accessibility_cost(t, r, dist=1).in_range(0, 0.5)
                 )
             )
+            * bookshelf.related_to(r).count().in_range(1, 2)
             # * (  # allow a storage object behind non-wall sofas
             #     storage.related_to(r, cu.on_floor)
             #     .related_to(freestanding(sofas, r), cu.back_to_back)
