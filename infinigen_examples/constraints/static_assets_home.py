@@ -615,7 +615,7 @@ def home_furniture_constraints():
     # region storage
 
     constraints["storage"] = bookshelf.all(
-        lambda b: (obj[static_assets.StaticBookFactory].related_to(b, cu.on).count().in_range(5, 20))
+        lambda b: (obj[static_assets.StaticBookFactory].related_to(b, cu.on).count().in_range(10, 50))
     )
 
     # endregion storage
@@ -875,6 +875,14 @@ def home_furniture_constraints():
         )
     )
 
+    non_bedrooms = rooms[cu.room_types.difference(rooms[Semantics.Bedroom].tags)]
+    constraints["no_beds_outside_bedroom"] = non_bedrooms.all(
+        lambda r: (
+            beds.related_to(r).count() == 0
+        )
+    )
+
+
     score_terms["bedroom"] = bedrooms.mean(
         lambda r: (
             beds.related_to(r)
@@ -1108,9 +1116,9 @@ def home_furniture_constraints():
     constraints["sofa"] = livingrooms.all(
         lambda r: (
             # sofas.related_to(r).count().in_range(2, 3)
-            sofas.related_to(r, sofa_back_near_wall).count().in_range(0, 4)
+            sofas.related_to(r, sofa_back_near_wall).count().in_range(1, 4)
             * sofas.related_to(r, sofa_side_near_wall).count().in_range(0, 1)
-            * sofas.related_to(r, cu.on_floor).count().in_range(0, 1)
+            * sofas.related_to(r, cu.on_floor).count().in_range(1, 2)
             * freestanding(sofas, r).all(
                 lambda t: (  # frustrum infront of freestanding sofa must directly contain tvstand
                     cl.accessibility_cost(t, tvstands.related_to(r), dist=3) > 0.4
@@ -1176,24 +1184,23 @@ def home_furniture_constraints():
     tvs = (
         obj[static_assets.StaticTvFactory]
         .related_to(tvstands, cu.ontop)
-        .related_to(tvstands, cu.back_coplanar_back)
+        # .related_to(tvstands, cu.back_coplanar_back)
     )
 
-    if params["has_tv"]:
-        constraints["tv"] = livingrooms.all(
-            lambda r: (
-                tvstands.related_to(r).all(
-                    lambda t: (
-                        (tvs.related_to(t).count() == 1)
-                        * tvs.related_to(t).all(
-                            lambda tv: (
-                                cl.accessibility_cost(tv, r, dist=1).in_range(0, 0.1)
-                            )
+    constraints["tv"] = livingrooms.all(
+        lambda r: (
+            tvstands.related_to(r).all(
+                lambda t: (
+                    (tvs.related_to(t).count() == 1)
+                    * tvs.related_to(t).all(
+                        lambda tv: (
+                            cl.accessibility_cost(tv, r, dist=1).in_range(0, 0.1)
                         )
                     )
                 )
             )
         )
+    )
 
     score_terms["tvstand"] = rooms.all(
         lambda r: (
@@ -1221,7 +1228,7 @@ def home_furniture_constraints():
             * tvstands.related_to(r).count().equals(1)
             * sidetables.related_to(sofas.related_to(r)).count().in_range(0, 2)
             * desks.related_to(r).count().in_range(0, 1)
-            * coffeetables.related_to(r).count().in_range(0, 1)
+            * coffeetables.related_to(r).count().in_range(1, 1)
             * coffeetables.related_to(r).all(
                 lambda t: (
                     obj[Semantics.OfficeShelfItem]
@@ -1270,6 +1277,12 @@ def home_furniture_constraints():
                     * (obj[Semantics.OfficeShelfItem].related_to(t, cu.on).count() >= 0)
                 )
             )
+        )
+    )
+
+    score_terms["away_from_walls"] = rooms.mean(
+        lambda r: coffeetables.related_to(r).mean(
+            lambda t: t.distance(r, cu.walltags).maximize(weight=2)
         )
     )
 

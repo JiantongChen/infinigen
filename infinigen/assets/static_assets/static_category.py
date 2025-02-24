@@ -16,10 +16,11 @@ from infinigen.core.util.math import FixedSeed
 
 def static_category_factory(
     path_to_assets: str,
-    tag_support=False,
+    tag_support: bool = False,
     x_dim: float = None,
     y_dim: float = None,
     z_dim: float = None,
+    exceed_limit: bool = False,
     rotation_euler: tuple[float] = None,
 ) -> StaticAssetFactory:
     """
@@ -73,6 +74,9 @@ def static_category_factory(
                     scale = self.y_dim / imported_obj.dimensions[1]
                 else:
                     scale = self.z_dim / imported_obj.dimensions[2]
+                
+                if exceed_limit and scale>1:
+                    scale = 1
                 imported_obj.scale = (scale, scale, scale)
             if self.tag_support:
                 tag_support_surfaces(imported_obj)
@@ -94,7 +98,7 @@ StaticPlateFactory = static_category_factory("infinigen/assets/static_assets/sou
 StaticBicycleFactory = static_category_factory("infinigen/assets/static_assets/source/Bicycle")
 StaticFanFactory = static_category_factory("infinigen/assets/static_assets/source/Fan")
 StaticWashingmachineFactory = static_category_factory("infinigen/assets/static_assets/source/Washingmachine")
-StaticShoecabinetFactory = static_category_factory("infinigen/assets/static_assets/source/Shoecabinet", z_dim=2.5)
+StaticShoecabinetFactory = static_category_factory("infinigen/assets/static_assets/source/Shoecabinet", z_dim=2.5, exceed_limit=True, tag_support=True)
 StaticOtherFactory = static_category_factory("infinigen/assets/static_assets/source/Other")
 StaticDeskFactory = static_category_factory("infinigen/assets/static_assets/source/Desk")
 StaticTrayFactory = static_category_factory("infinigen/assets/static_assets/source/Tray")
@@ -104,12 +108,12 @@ StaticBedFactory = static_category_factory("infinigen/assets/static_assets/sourc
 StaticElectriccookerFactory = static_category_factory("infinigen/assets/static_assets/source/Electriccooker")
 StaticClockFactory = static_category_factory("infinigen/assets/static_assets/source/Clock")
 StaticPlantFactory = static_category_factory("infinigen/assets/static_assets/source/Plant")
-StaticTvstandFactory = static_category_factory("infinigen/assets/static_assets/source/Tvstand")
+StaticTvstandFactory = static_category_factory("infinigen/assets/static_assets/source/Tvstand", tag_support=True)
 StaticRefrigeratorFactory = static_category_factory("infinigen/assets/static_assets/source/Refrigerator")
 StaticFaucetFactory = static_category_factory("infinigen/assets/static_assets/source/Faucet")
 StaticStoolFactory = static_category_factory("infinigen/assets/static_assets/source/Stool")
 StaticBathtubFactory = static_category_factory("infinigen/assets/static_assets/source/Bathtub")
-StaticCabinetFactory = static_category_factory("infinigen/assets/static_assets/source/Cabinet", z_dim=2.5)
+StaticCabinetFactory = static_category_factory("infinigen/assets/static_assets/source/Cabinet", z_dim=2.5, exceed_limit=True, tag_support=True)
 StaticCouchFactory = static_category_factory("infinigen/assets/static_assets/source/Couch")
 StaticLightFactory = static_category_factory("infinigen/assets/static_assets/source/Light")
 StaticClothesFactory = static_category_factory("infinigen/assets/static_assets/source/Clothes")
@@ -138,7 +142,7 @@ StaticTableFactory = static_category_factory("infinigen/assets/static_assets/sou
 StaticKeyboardFactory = static_category_factory("infinigen/assets/static_assets/source/Keyboard")
 StaticSofachairFactory = static_category_factory("infinigen/assets/static_assets/source/Sofachair")
 StaticBasketFactory = static_category_factory("infinigen/assets/static_assets/source/Basket")
-StaticTeatableFactory = static_category_factory("infinigen/assets/static_assets/source/Teatable")
+StaticTeatableFactory = static_category_factory("infinigen/assets/static_assets/source/Teatable", tag_support=True)
 StaticSideboardcabinetFactory = static_category_factory("infinigen/assets/static_assets/source/Sideboardcabinet")
 StaticPanFactory = static_category_factory("infinigen/assets/static_assets/source/Pan")
 StaticMonitorFactory = static_category_factory("infinigen/assets/static_assets/source/Monitor")
