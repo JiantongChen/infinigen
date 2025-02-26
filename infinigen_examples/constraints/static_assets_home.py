@@ -36,7 +36,7 @@ from .static_assets_semantics import home_asset_usage
 def sample_home_constraint_params():
     return dict(
         # what pct of the room floorplan should we try to fill with furniture?
-        furniture_fullness_pct=uniform(0.6, 0.9),
+        furniture_fullness_pct=uniform(0.75, 0.9),
         # how many objects in each shelving per unit of volume
         obj_interior_obj_pct=uniform(0.5, 1),  # uniform(0.6, 0.9),
         # what pct of top surface of storage furniture should be filled with objects? e.g pct of top surface of shelf
@@ -233,7 +233,7 @@ def home_room_constraints(fast=False):
                 lambda r: rooms[Semantics.Bedroom]
                 .related_to(r, cl.Traverse())
                 .count()
-                .in_range(1, 2, mean=1.2)
+                .in_range(2, 3, mean=2.2)
             )
             * rooms[Semantics.LivingRoom].all(
                 lambda r: rooms[Semantics.Entrance]
@@ -331,7 +331,7 @@ def home_room_constraints(fast=False):
             * (rooms[Semantics.StaircaseRoom].count() == 0)
             * (rooms[Semantics.LivingRoom].count() >= 1)
             * (rooms[Semantics.Kitchen].count() >= 1)
-            * (rooms[Semantics.Bedroom].count() >= 1)
+            * (rooms[Semantics.Bedroom].count() >= 2)
             * (rooms[Semantics.Bathroom].count() >= 1)
         )
 
@@ -399,8 +399,8 @@ def home_room_constraints(fast=False):
         .sum(lambda r: r.convexity().log())
         .minimize(weight=5.0)
         + rooms[-Semantics.Hallway]
-        .sum(lambda r: (r.n_verts() - 6).clip(0).pow(1.5))
-        .minimize(weight=1.0)
+        .sum(lambda r: (r.n_verts() - 5).clip(0).pow(2))
+        .minimize(weight=2000.0)
         + sum(
             rooms[tag].sum(
                 lambda r: r.shared_length(exterior(r)) / exterior(r).length()

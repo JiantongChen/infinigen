@@ -154,6 +154,8 @@ def stable_against(
         projected_a_rotated, projected_b_rotated = project_and_align_z_with_x(
             [projected_a, projected_b], z_proj
         )
+        if type(projected_b_rotated)==MultiPolygon:
+            raise ValueError(f"MultiPolygon object {pb=}")
         res = is_vertically_contained(projected_a_rotated, projected_b_rotated)
 
     if visualize:
