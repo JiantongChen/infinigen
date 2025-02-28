@@ -174,6 +174,7 @@ def home_asset_usage():
             static_assets.StaticBathtubFactory,
             static_assets.StaticSofachairFactory,
             static_assets.StaticTvstandFactory,
+            static_assets.StaticPianoFactory,
         },
     )
 

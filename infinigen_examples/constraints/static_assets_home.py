@@ -355,7 +355,7 @@ def home_room_constraints(fast=False):
                 lambda r: (r.area() / 20).log().hinge(0, 0.4).pow(2)
             )
             + rooms[Semantics.Bedroom].sum(
-                lambda r: (r.area() / 40).log().hinge(0, 0.4).pow(2)
+                lambda r: (r.area() / 15).log().hinge(0, 0.4).pow(2)
             )
             + rooms[Semantics.LivingRoom].sum(
                 lambda r: (r.area() / 40).log().hinge(0, 0.4).pow(2)
@@ -367,7 +367,7 @@ def home_room_constraints(fast=False):
                 lambda r: (r.area() / 5).log().hinge(0, 0.4).pow(2)
             )
             + rooms[Semantics.Bathroom].sum(
-                lambda r: (r.area() / 8).log().hinge(0, 0.4).pow(2)
+                lambda r: (r.area() / 10).log().hinge(0, 0.4).pow(2)
             )
             + rooms[Semantics.Utility].sum(
                 lambda r: (r.area() / 5).log().hinge(0, 0.4).pow(2)
@@ -681,7 +681,7 @@ def home_furniture_constraints():
     score_terms["floor_covering"] = rugs.mean(
         lambda rug: (
             rug.distance(rooms, cu.walltags).maximize(weight=3)
-            + cl.angle_alignment_cost(rug, rooms, cu.walltags).minimize(weight=3)
+            + cl.angle_alignment_cost(rug, rooms, cu.walltags).minimize(weight=5)
         )
     )
     # endregion
@@ -863,7 +863,7 @@ def home_furniture_constraints():
         lambda r: (
             beds.related_to(r).count().in_range(1, 2)
             * sidetables.related_to(beds.related_to(r)).count().in_range(0, 2)
-            * rugs.related_to(r).count().in_range(0, 1)
+            * rugs.related_to(r).count().in_range(1, 2)
             * desks.related_to(r).count().in_range(0, 1)
             * storage_freestanding.related_to(r).count().in_range(2, 5)
             * floor_lamps.related_to(r).count().in_range(0, 1)
@@ -1102,6 +1102,7 @@ def home_furniture_constraints():
     sofas = furniture[static_assets.StaticSofachairFactory]
     tvstands = wallfurn[static_assets.StaticTvstandFactory]
     coffeetables = furniture[static_assets.StaticTeatableFactory]
+    piano = wallfurn[static_assets.StaticPianoFactory]
 
     sofa_back_near_wall = cl.StableAgainst(
         cu.back, cu.walltags, margin=uniform(0.1, 0.3)
@@ -1207,9 +1208,9 @@ def home_furniture_constraints():
             tvstands.mean(
                 lambda stand: (
                     tvs.related_to(stand).volume().maximize(weight=1)
-                    + stand.distance(window).maximize(
-                        weight=1
-                    )  # penalize being very close to window. avoids tv blocking window.
+                    # + stand.distance(window).maximize(
+                    #     weight=1
+                    # )  # penalize being very close to window. avoids tv blocking window.
                     + cl.accessibility_cost(stand, furniture).minimize(weight=3)
                     + cl.center_stable_surface_dist(stand).minimize(
                         weight=5
@@ -1228,7 +1229,7 @@ def home_furniture_constraints():
             * tvstands.related_to(r).count().equals(1)
             * sidetables.related_to(sofas.related_to(r)).count().in_range(0, 2)
             * desks.related_to(r).count().in_range(0, 1)
-            * coffeetables.related_to(r).count().in_range(1, 1)
+            * coffeetables.related_to(r).count().in_range(1, 2)
             * coffeetables.related_to(r).all(
                 lambda t: (
                     obj[Semantics.OfficeShelfItem]
@@ -1241,8 +1242,9 @@ def home_furniture_constraints():
                 rugs.related_to(r)
                 # .related_to(furniture.related_to(r), cu.side_by_side)
                 .count()
-                .in_range(0, 2)
+                .in_range(1, 2)
             )
+            * piano.related_to(r).count().in_range(0, 1)
         )
     )
 
@@ -1252,6 +1254,7 @@ def home_furniture_constraints():
                 lambda t: (
                     # ideal coffeetable-to-tv distance according to google
                     t.distance(sofas.related_to(r)).hinge(0.45, 0.6).minimize(weight=5)
+                    + cl.angle_alignment_cost(t, r).minimize(weight=5)
                     + cl.angle_alignment_cost(
                         t, sofas.related_to(r), cu.front
                     ).minimize(weight=5)

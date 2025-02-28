@@ -31,6 +31,7 @@ from .static_category import (
     StaticTvstandFactory,
     StaticBookshelfFactory,
     StaticBlanketFactory,
+    StaticPianoFactory,
     StaticSofachairFactory, #
     StaticWallFactory,
     StaticLaptopFactory,
@@ -70,7 +71,6 @@ from .static_category import (
     StaticHearthFactory,
     StaticChestofdrawersFactory,
     StaticTowelFactory,
-    StaticPianoFactory,
     StaticDishwasherFactory,
     StaticMusicalinstrumentFactory,
     static_category_factory,
