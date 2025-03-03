@@ -516,7 +516,7 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output_folder", type=Path, default="outputs/case2/indoors/coarse")
+    parser.add_argument("--output_folder", type=Path, default="outputs/case3/indoors/coarse")
     parser.add_argument("--input_folder", type=Path, default=None)
     parser.add_argument(
         "-s", "--seed", default="0", help="The seed used to generate the scene"
