@@ -69,7 +69,12 @@ def is_vertically_contained(poly_a, poly_b):
     bool: True if A is vertically contained within B.
     """
     y_coords_a = [point[1] for point in poly_a.exterior.coords]
-    y_coords_b = [point[1] for point in poly_b.exterior.coords]
+    if type(poly_b)==MultiPolygon:
+        y_coords_b = []
+        for sub_poly in poly_b.geoms:
+            y_coords_b.extend([point[1] for point in sub_poly.exterior.coords])
+    else:
+        y_coords_b = [point[1] for point in poly_b.exterior.coords]
 
     # Check vertical containment along the Y-axis
     min_a, max_a = min(y_coords_a), max(y_coords_a)
@@ -154,8 +159,6 @@ def stable_against(
         projected_a_rotated, projected_b_rotated = project_and_align_z_with_x(
             [projected_a, projected_b], z_proj
         )
-        if type(projected_b_rotated)==MultiPolygon:
-            raise ValueError(f"MultiPolygon object {pb=}")
         res = is_vertically_contained(projected_a_rotated, projected_b_rotated)
 
     if visualize:

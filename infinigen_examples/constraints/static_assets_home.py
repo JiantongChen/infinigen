@@ -1354,7 +1354,7 @@ def home_furniture_constraints():
     constraints["diningroom"] = diningrooms.all(
         lambda r: (
             (diningtables.related_to(r).count() == 1)
-            * (diningchairs.related_to(r).count().in_range(4, 6))
+            * (diningchairs.related_to(r).count().in_range(2, 4))
             * storage.related_to(r).all(
                 lambda t: (
                     (obj[Semantics.Dishware].related_to(t, cu.on).count() >= 0)
