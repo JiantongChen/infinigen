@@ -363,12 +363,12 @@ def compose_indoors(output_folder: Path, scene_seed: int, **overrides):
     rooms_meshed = butil.get_collection("placeholders:room_meshes")
     rooms_split = room_dec.split_rooms(list(rooms_meshed.objects))
 
-    p.run_stage(
-        "room_pillars",
-        room_dec.room_pillars,
-        rooms_split["wall"].objects,
-        constants,
-    )
+    # p.run_stage(
+    #     "room_pillars",
+    #     room_dec.room_pillars,
+    #     rooms_split["wall"].objects,
+    #     constants,
+    # )
 
     p.run_stage(
         "room_walls",
@@ -519,7 +519,7 @@ if __name__ == "__main__":
     parser.add_argument("--output_folder", type=Path, default="outputs/case3/indoors/coarse")
     parser.add_argument("--input_folder", type=Path, default=None)
     parser.add_argument(
-        "-s", "--seed", default="0", help="The seed used to generate the scene"
+        "-s", "--seed", default=None, help="The seed used to generate the scene"
     )
     parser.add_argument(
         "-t",

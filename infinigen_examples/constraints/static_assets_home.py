@@ -400,7 +400,7 @@ def home_room_constraints(fast=False):
         .minimize(weight=5.0)
         + rooms[-Semantics.Hallway]
         .sum(lambda r: (r.n_verts() - 5).clip(0).pow(2))
-        .minimize(weight=2000.0)
+        .minimize(weight=20000.0)
         + sum(
             rooms[tag].sum(
                 lambda r: r.shared_length(exterior(r)) / exterior(r).length()
@@ -411,26 +411,27 @@ def home_room_constraints(fast=False):
                 Semantics.DiningRoom,
                 Semantics.Kitchen,
                 Semantics.LivingRoom,
+                Semantics.Bathroom,
             }
-        ).maximize(weight=10.0)
-        + sum(
-            rooms[tag].sum(lambda r: (r.shared_n_verts(exterior(r)) - 2).clip(0))
-            for tag in {
-                Semantics.Bedroom,
-                Semantics.Balcony,
-                Semantics.DiningRoom,
-                Semantics.Kitchen,
-                Semantics.LivingRoom,
-            }
-        ).maximize(weight=1.0)
+        ).maximize(weight=1000.0)
+        # + sum(
+        #     rooms[tag].sum(lambda r: (r.shared_n_verts(exterior(r)) - 2).clip(0))
+        #     for tag in {
+        #         Semantics.Bedroom,
+        #         Semantics.Balcony,
+        #         Semantics.DiningRoom,
+        #         Semantics.Kitchen,
+        #         Semantics.LivingRoom,
+        #     }
+        # ).maximize(weight=1.0)
         + (
             rooms.grid_line_count(constants, "x")
             + rooms.grid_line_count(constants, "y")
-        ).minimize(weight=2.0)
+        ).minimize(weight=2000.0)
         + rooms.sum(
             lambda r: r.grid_line_count(constants, "x")
             + r.grid_line_count(constants, "y")
-        ).minimize(weight=2.0)
+        ).minimize(weight=2000.0)
         + sum(
             rooms[tag].area() for tag in {Semantics.Hallway, Semantics.StaircaseRoom}
         ).minimize(weight=20.0)
@@ -681,7 +682,7 @@ def home_furniture_constraints():
     score_terms["floor_covering"] = rugs.mean(
         lambda rug: (
             rug.distance(rooms, cu.walltags).maximize(weight=3)
-            + cl.angle_alignment_cost(rug, rooms, cu.walltags).minimize(weight=5)
+            + cl.angle_alignment_cost(rug, rooms, cu.walltags).minimize(weight=10)
         )
     )
     # endregion
@@ -1229,7 +1230,7 @@ def home_furniture_constraints():
             * tvstands.related_to(r).count().equals(1)
             * sidetables.related_to(sofas.related_to(r)).count().in_range(0, 2)
             * desks.related_to(r).count().in_range(0, 1)
-            * coffeetables.related_to(r).count().in_range(1, 2)
+            * coffeetables.related_to(r).count().in_range(1, 1)
             * coffeetables.related_to(r).all(
                 lambda t: (
                     obj[Semantics.OfficeShelfItem]
@@ -1436,75 +1437,75 @@ def home_furniture_constraints():
 
     # region MISC OBJECTS
 
-    if params["has_aquarium_tank"]:
+    # if params["has_aquarium_tank"]:
 
-        def aqtank(r):
-            return obj[decor.AquariumTankFactory].related_to(
-                storage.related_to(r), cu.ontop
-            )
+    #     def aqtank(r):
+    #         return obj[decor.AquariumTankFactory].related_to(
+    #             storage.related_to(r), cu.ontop
+    #         )
 
-        constraints["aquarium_tank"] = aqtank(rooms).count().in_range(0, 1)
-        score_terms["aquarium_tank"] = rooms.all(
-            lambda r: (
-                aqtank(r).distance(r, cu.walltags).hinge(0.05, 0.1).minimize(weight=1)
-            )
-        )
+    #     constraints["aquarium_tank"] = aqtank(rooms).count().in_range(0, 1)
+    #     score_terms["aquarium_tank"] = rooms.all(
+    #         lambda r: (
+    #             aqtank(r).distance(r, cu.walltags).hinge(0.05, 0.1).minimize(weight=1)
+    #         )
+    #     )
 
-    if params["has_birthday_balloons"]:
-        balloons = obj[wall_decorations.BalloonFactory].related_to(
-            rooms, cu.against_wall
-        )
-        constraints["birthday_balloons"] = (
-            balloons.related_to(rooms, cu.against_wall).count().in_range(0, 3)
-        )
-        score_terms["birthday_balloons"] = rooms.all(
-            lambda r: (
-                balloons.mean(
-                    lambda b: b.distance(r, cu.floortags)
-                    .hinge(1.6, 2.5)
-                    .minimize(weight=1)
-                )
-            )
-        )
+    # if params["has_birthday_balloons"]:
+    #     balloons = obj[wall_decorations.BalloonFactory].related_to(
+    #         rooms, cu.against_wall
+    #     )
+    #     constraints["birthday_balloons"] = (
+    #         balloons.related_to(rooms, cu.against_wall).count().in_range(0, 3)
+    #     )
+    #     score_terms["birthday_balloons"] = rooms.all(
+    #         lambda r: (
+    #             balloons.mean(
+    #                 lambda b: b.distance(r, cu.floortags)
+    #                 .hinge(1.6, 2.5)
+    #                 .minimize(weight=1)
+    #             )
+    #         )
+    #     )
 
-    if params["has_cocktail_tables"]:
-        cocktail_table = (
-            furniture[static_assets.StaticTableFactory]
-            .related_to(rooms, cu.on_floor)
-            .related_to(rooms, cu.against_wall)
-        )
+    # if params["has_cocktail_tables"]:
+    #     cocktail_table = (
+    #         furniture[static_assets.StaticTableFactory]
+    #         .related_to(rooms, cu.on_floor)
+    #         .related_to(rooms, cu.against_wall)
+    #     )
 
-        constraints["cocktail_tables"] = diningrooms.all(
-            lambda r: (
-                cocktail_table.related_to(r).count().in_range(0, 3)
-                * (
-                    barchairs.related_to(cocktail_table.related_to(r), cu.front_against)
-                    .count()
-                    .in_range(0, 4)
-                )
-                * (
-                    obj[tableware.WineglassFactory]
-                    .related_to(cocktail_table.related_to(r), cu.ontop)
-                    .count()
-                    .in_range(0, 4)
-                )
-            )
-        )
-        score_terms["cocktail_tables"] = diningrooms.mean(
-            lambda r: (
-                cocktail_table.related_to(r).mean(
-                    lambda t: (
-                        t.distance(r, cu.walltags).hinge(0.5, 1).minimize(weight=1)
-                        + t.distance(cocktail_table.related_to(r))
-                        .hinge(1, 2)
-                        .minimize(weight=1)
-                        + barchairs.related_to(t)
-                        .mean(lambda c: c.distance(barchairs.related_to(t)))
-                        .maximize(weight=1)
-                    )
-                )
-            )
-        )
+    #     constraints["cocktail_tables"] = diningrooms.all(
+    #         lambda r: (
+    #             cocktail_table.related_to(r).count().in_range(0, 3)
+    #             * (
+    #                 barchairs.related_to(cocktail_table.related_to(r), cu.front_against)
+    #                 .count()
+    #                 .in_range(0, 4)
+    #             )
+    #             * (
+    #                 obj[tableware.WineglassFactory]
+    #                 .related_to(cocktail_table.related_to(r), cu.ontop)
+    #                 .count()
+    #                 .in_range(0, 4)
+    #             )
+    #         )
+    #     )
+    #     score_terms["cocktail_tables"] = diningrooms.mean(
+    #         lambda r: (
+    #             cocktail_table.related_to(r).mean(
+    #                 lambda t: (
+    #                     t.distance(r, cu.walltags).hinge(0.5, 1).minimize(weight=1)
+    #                     + t.distance(cocktail_table.related_to(r))
+    #                     .hinge(1, 2)
+    #                     .minimize(weight=1)
+    #                     + barchairs.related_to(t)
+    #                     .mean(lambda c: c.distance(barchairs.related_to(t)))
+    #                     .maximize(weight=1)
+    #                 )
+    #             )
+    #         )
+    #     )
 
     # endregion
 
